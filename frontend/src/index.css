@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0a0e1a;
+    color: #e2e8f0;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  /* Subtle dot-grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(232, 201, 106, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply font-body font-bold tracking-widest uppercase text-sm px-6 py-2 rounded
+           bg-gold text-bg transition-all duration-200
+           hover:brightness-110 active:scale-95
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-ghost {
+    @apply font-body font-bold tracking-widest uppercase text-sm px-6 py-2 rounded
+           border border-gold/40 text-gold transition-all duration-200
+           hover:bg-gold/10 active:scale-95
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-danger {
+    @apply font-body font-bold tracking-widest uppercase text-sm px-4 py-1.5 rounded
+           border border-red-500/50 text-red-400 transition-all duration-200
+           hover:bg-red-500/10 active:scale-95
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .input-dark {
+    @apply w-full bg-card border border-white/10 rounded px-4 py-2.5
+           font-body text-gray-200 placeholder-gray-600
+           focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30
+           transition-colors;
+  }
+
+  .card-dark {
+    @apply bg-card border border-white/10 rounded-xl p-6;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0e1a; }
+::-webkit-scrollbar-thumb { background: #e8c96a40; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #e8c96a80; }
