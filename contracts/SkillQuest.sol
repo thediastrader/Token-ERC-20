@@ -30,6 +30,7 @@ contract SkillQuest is ERC721, Ownable {
     mapping(address => mapping(uint256 => Submission)) private _submissions;
     mapping(address => mapping(uint256 => uint256)) public skillTokenId;
     mapping(uint256 => string) private _tokenURIs;
+    mapping(address => uint8) public highestTierApproved; // NOVO
 
     event EvidenceSubmitted(address indexed user, uint256 indexed skillId, string evidenceURL);
     event SkillMinted(address indexed user, uint256 indexed skillId, uint256 tokenId);
@@ -37,8 +38,6 @@ contract SkillQuest is ERC721, Ownable {
     event SkillAdded(uint256 indexed skillId, string name, uint8 tier);
 
     constructor() ERC721("SkillQuest", "SKILL") Ownable(msg.sender) {}
-
-    // ─── Admin functions ──────────────────────────────────────────────────────
 
     function addSkill(
         uint256 skillId,
@@ -62,6 +61,12 @@ contract SkillQuest is ERC721, Ownable {
 
         _submissions[to][skillId].status = SubmissionStatus.Approved;
 
+        // Atualiza o tier mais alto aprovado
+        uint8 skillTier = _skills[skillId].tier;
+        if (skillTier > highestTierApproved[to]) {
+            highestTierApproved[to] = skillTier;
+        }
+
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _tokenURIs[tokenId] = _skills[skillId].metadataURI;
@@ -79,8 +84,6 @@ contract SkillQuest is ERC721, Ownable {
         emit SubmissionRejected(user, skillId);
     }
 
-    // ─── User functions ───────────────────────────────────────────────────────
-
     function submitEvidence(uint256 skillId, string calldata evidenceURL) external {
         require(_skills[skillId].exists, "Skill does not exist");
         require(!hasSkill(msg.sender, skillId), "Already earned this skill");
@@ -88,11 +91,17 @@ contract SkillQuest is ERC721, Ownable {
             _submissions[msg.sender][skillId].status != SubmissionStatus.Pending,
             "Submission already pending"
         );
+
+        // Verifica pré-requisito de tier
+        uint8 requiredTier = _skills[skillId].tier - 1;
+        require(
+            requiredTier == 0 || highestTierApproved[msg.sender] >= requiredTier,
+            "Tier prerequisite not met"
+        );
+
         _submissions[msg.sender][skillId] = Submission(evidenceURL, SubmissionStatus.Pending);
         emit EvidenceSubmitted(msg.sender, skillId, evidenceURL);
     }
-
-    // ─── View functions ───────────────────────────────────────────────────────
 
     function hasSkill(address user, uint256 skillId) public view returns (bool) {
         return _submissions[user][skillId].status == SubmissionStatus.Approved;
