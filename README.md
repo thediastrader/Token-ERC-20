@@ -1,6 +1,6 @@
 # Token-ERC-20
 
-Implementação de um token ERC-20 (MeuToken) com sistema de staking, construído com Solidity e Hardhat como parte do meu roadmap de desenvolvimento Web3.
+An ERC-20 token implementation (MeuToken) with a staking system, built with Solidity and Hardhat as part of my Web3 development roadmap.
 
 ## Stack
 
@@ -10,19 +10,19 @@ Implementação de um token ERC-20 (MeuToken) com sistema de staking, construíd
 - TypeScript
 - Frontend: React / Vite
 
-## Contratos
+## Contracts
 
-- **MeuToken (ERC-20)** — token customizado com mint e burn
-- **StakingContract** — permite stake/unstake de MeuToken com recompensas
+- **MeuToken (ERC-20)** — custom token with mint and burn
+- **StakingContract** — allows staking/unstaking of MeuToken with rewards
 
-## Deploy (Base Sepolia)
+## Deployment (Base Sepolia)
 
-| Contrato | Endereço |
+| Contract | Address |
 |---|---|
 | MeuToken | `0x...` |
 | StakingContract | `0x...` |
 
-## Como rodar localmente
+## Running locally
 
 ```bash
 npm install
@@ -30,16 +30,16 @@ npx hardhat compile
 npx hardhat test
 ```
 
-## Testes
+## Tests
 
-Cobertura de testes para as funções principais de mint, burn, stake e unstake (ver pasta `test/`).
+Test coverage for the core mint, burn, stake, and unstake functions (see `test/` folder).
 
-## Próximos passos
+## Next steps
 
-- Adicionar ReentrancyGuard e Ownable
-- Auditoria de segurança
-- Deploy em mainnet
+- Add ReentrancyGuard and Ownable
+- Security audit
+- Mainnet deployment
 
 ---
 
-Feito por [Dias](https://x.com/CryptoTheDias) — parte de um roadmap público de Solidity e Web3 security.
+Built by [Dias](https://x.com/CryptoTheDias) — part of a public Solidity and Web3 security roadmap.
